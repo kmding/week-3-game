@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GAME</title>
+	<!-- JQuery -->
+<script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div id="container">
+
+<script type="text/javascript">
+
+
+var alphaBet = ['a','b','c','d','e','f','g','h','i','j','k','l','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+var userScore = 0;
+var compWin = 0;
+var numOfGuess = 7;
+var guessInput = [];
+var computerGuess = alphaBet[Math.floor(Math.random()*alphaBet.length)];
+
+var thisIsALetter = false;
+var theUsed = [];
+var alreadyGuessed = false;
+
+function newGame(){
+	numOfGuess = 7;
+	$('#numOfGuess').html(numOfGuess);
+	computerGuess = alphaBet[Math.floor(Math.random()*alphaBet.length)];	
+}
+
+document.onkeyup = function(event) {
+	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+
+	console.log(userGuess);
+	
+	console.log(computerGuess);
+
+	//Tests if it's a letter
+	for(var a = 0; a < alphaBet.length; a++){
+		if(userGuess === alphaBet[a]){
+			thisIsALetter = true;
+		}
+	}
+	if(thisIsALetter == false){
+		console.log('not a letter');
+	}
+	//Tests if it's been guessed already
+	for(var i = 0; i < theUsed.length; i++){
+		if(userGuess === theUsed[i]){
+			alreadyGuessed = true;
+		}
+	}
+
+	if(alreadyGuessed == true){
+		console.log('guessed already');
+	}
+	//if it is a letter and hasn't been guessed, push into array
+	if (thisIsALetter == true && alreadyGuessed == false){
+		theUsed.push(userGuess);
+		numOfGuess--;
+		$('#numOfGuess').html(numOfGuess);
+	}
+
+	$('#theUsed').html(theUsed);
+	thisIsALetter = false;
+	alreadyGuess = false;
+	//user wins
+	if (computerGuess == userGuess){
+		console.log("They're the same!");
+		 userScore++;
+		$('#userScore').html(userScore);
+		newGame();
+	}
+
+	//user lost
+	if (numOfGuess == 0){
+		compWin++;
+		$('#compWin').html(compWin);
+		newGame();
+	}
+
+	}
+
+		
+</script>
+
+
+</div id = 'theUsed'></div>
+	<p>Guesses Left: <span id ="numOfGuess">7</span></p>
+	<p>Wins: <span id="userScore">0</span></p>
+	<p>Loses: <span id="compWin">0</span></p>
+
+
+
+
+
+</body>
+</html>
